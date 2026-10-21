@@ -113,8 +113,39 @@ def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path):
         if event.agent == "writer" and event.status == "done"
     )
     assert "P9000" in writer.message
-    assert "il est accordé" in writer.message
-    assert "deux (2) années" in writer.message
+    assert "accorde deux (2) années" in writer.message
+    assert "Bachelor of Architecture" in writer.message
     assert filler.strip() not in writer.message
     assert writer.data["reference"]["text"] == text.strip()
     assert len(writer.message) < len(text) / 2
+
+
+def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path):
+    pdf = tmp_path / "sources" / "pdf" / "particular" / "P2175.pdf"
+    pdf.parent.mkdir(parents=True)
+    text = (
+        '"Credit" = 1 unité\n'
+        "Lorsque les études précédant le diplôme valent douze (12) années de scolarité ou plus "
+        "et comportent de la formation générale, on ne devra pas dépasser deux (2) années de scolarité.\n"
+        '"Bachelor of Arts" ou "Bachelor of Science", obtenu à la suite de la réussite du programme; '
+        "on accorde, pour ce bachelor, la portion du programme qui ne fait pas l'objet d'un recouvrement "
+        "avec les études antérieures."
+    )
+    write_pdf(text, pdf, title="P2175")
+    upsert_chunks(
+        [_chunk(tmp_path, chunk_id="P2175#003", document_id="P2175", text=text, pdf=pdf)],
+        root=tmp_path,
+    )
+    writer = next(
+        event
+        for event in run_agents(
+            "Combien d'années pour un Bachelor of Architecture au Québec ?",
+            root=tmp_path,
+        )
+        if event.agent == "writer" and event.status == "done"
+    )
+    assert writer.message.startswith("Je ne sais pas")
+    assert "Architecture" in writer.message
+    assert "Québec" in writer.message
+    assert "Bachelor of Arts" not in writer.message
+    assert "deux (2) années" not in writer.message

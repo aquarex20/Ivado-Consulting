@@ -43,6 +43,15 @@ AGENTS = [
     ("citer", "2 · PDF reference", "Exact line in the immutable PDF"),
     ("writer", "3 · Answer", "Short reformulation for the user"),
 ]
+# Each of these is answered by a rule present in the PoC index.
+INDEXED_QUESTIONS = [
+    "Quelle base de scolarité accorde la règle G0013 ?",
+    "Combien d'années maximum pour des études de droit comparables à une licence, règle G0015 ?",
+    "Combien d'années de scolarité maximum pour le collégial professionnel au Québec ?",
+    "Combien d'années pour un programme d'un an après un premier diplôme universitaire, règle G0595 ?",
+    "Combien d'années pour une Licence en gestion des entreprises au Liban ?",
+    "Combien d'années de scolarité pour un Bachelor of Science option Mathematics du Chu Hai College ?",
+]
 
 
 def _index_ready() -> tuple[bool, str]:
@@ -93,9 +102,14 @@ def main() -> None:
     if not ready:
         st.stop()
 
-    question = st.chat_input("Ask about a rule, diploma, country, or schooling value…")
+    typed = st.chat_input("Ask about a rule, diploma, country, or schooling value…")
+    question = typed or st.session_state.pop("pending_question", None)
     if not question:
-        st.info("Example: « Combien d'années pour un Bachelor of Architecture au Québec ? »")
+        st.caption("Questions sur des règles indexées")
+        for index, sample in enumerate(INDEXED_QUESTIONS):
+            if st.button(sample, key=f"indexed-question-{index}"):
+                st.session_state.pending_question = sample
+                st.rerun()
         return
 
     st.markdown(f"**Question.** {question}")
