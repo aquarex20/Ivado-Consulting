@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import time
 
 import streamlit as st
@@ -11,6 +12,30 @@ from .paths import catalog_path, project_root
 from .search import record_count
 
 st.set_page_config(page_title="ICARE · lookup", page_icon="📄", layout="wide")
+
+# The reference passage wraps in place. It is not a fixed-height scroll box.
+_REFERENCE_CSS = """
+<style>
+[data-testid="stExpander"] details,
+[data-testid="stExpanderDetails"],
+[data-testid="stExpander"] [data-testid="stCode"],
+[data-testid="stExpander"] pre {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  max-height: none !important;
+  height: auto !important;
+  white-space: pre-wrap !important;
+}
+.icare-reference {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow: visible;
+  max-height: none;
+  margin: 0;
+}
+</style>
+"""
 
 ROOT = project_root()
 AGENTS = [
@@ -39,7 +64,24 @@ def _card(title: str, subtitle: str) -> dict:
     return {"status": status, "detail": detail}
 
 
+def _reference_block(reference: dict) -> None:
+    pdf = reference.get("pdf") or "PDF"
+    page = reference.get("page") or "—"
+    line = reference.get("line") or "—"
+    passage = (reference.get("text") or reference.get("line_text") or "").strip()
+    with st.expander("Reference", expanded=False):
+        st.caption(f"{pdf} · page {page} · line {line}")
+        if passage:
+            # One HTML line, so Markdown does not turn indented rule text into a scrolling code block.
+            safe = html.escape(passage).replace("\t", " ").replace("\n", "<br>")
+            st.markdown(
+                f"<div class='icare-reference'>{safe}</div>",
+                unsafe_allow_html=True,
+            )
+
+
 def main() -> None:
+    st.markdown(_REFERENCE_CSS, unsafe_allow_html=True)
     st.title("ICARE rule lookup")
     st.caption(
         "Three agents, in order: retrieve a Qdrant record, lock the PDF line, "
@@ -85,15 +127,12 @@ def main() -> None:
             )
         elif event.agent == "citer":
             card["status"].markdown(event.message)
-            card["detail"].markdown(
-                f"<p style='color:#9ca3af;font-size:12px;margin:0'>"
-                f"{event.detail}</p>",
-                unsafe_allow_html=True,
-            )
+            card["detail"].caption("Passage kept for Reference")
         elif event.agent == "writer":
             card["status"].markdown("Done")
             card["detail"].caption(f"via {event.detail}")
             answer_box.success(event.message)
+            _reference_block(event.data.get("reference") or {})
         time.sleep(0.15)
 
 

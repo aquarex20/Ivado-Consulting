@@ -87,3 +87,34 @@ def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path):
     assert retriever.detail == "G2553#002"
     assert citer.data["page"] >= 1
     assert "G2553" in writer.message
+    assert "Source:" not in writer.message
+    assert writer.data["reference"]["text"] == text
+    assert writer.message.count("\n") == 0
+    assert "correspond à" in writer.message
+
+
+def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path):
+    pdf = tmp_path / "sources" / "pdf" / "particular" / "P9000.pdf"
+    pdf.parent.mkdir(parents=True)
+    filler = "Ce diplôme est décerné par un établissement énuméré ci-après. " * 6
+    answer_clause = (
+        "On accorde, pour ce Bachelor of Architecture, deux (2) années de scolarité "
+        "qui s'ajoutent à la scolarité déjà acquise."
+    )
+    text = filler + answer_clause + " " + filler
+    write_pdf(f"P9000\n{text}", pdf, title="P9000")
+    upsert_chunks(
+        [_chunk(tmp_path, chunk_id="P9000#001", document_id="P9000", text=text, pdf=pdf)],
+        root=tmp_path,
+    )
+    writer = next(
+        event
+        for event in run_agents("Combien d'années pour un Bachelor of Architecture ?", root=tmp_path)
+        if event.agent == "writer" and event.status == "done"
+    )
+    assert "P9000" in writer.message
+    assert "il est accordé" in writer.message
+    assert "deux (2) années" in writer.message
+    assert filler.strip() not in writer.message
+    assert writer.data["reference"]["text"] == text.strip()
+    assert len(writer.message) < len(text) / 2
