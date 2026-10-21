@@ -1,0 +1,40 @@
+{
+  "document_id": "P1220",
+  "source_id": "src-P1220",
+  "source_filename": "P1220.pdf",
+  "source_hash": "e54631b927071547c2b54b899b46a267cd4296ab30f93213a8a0eb7d848b572f",
+  "evidence": [
+    {
+      "evidence_unit_id": "P1220#001",
+      "chunk_id": "P1220#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Le programme du Grade de candidat... (Université...) et du Grade de licencié... (Université...) est offert par un des organismes ou l'établissement énumérés ciaprès : Facultés catholiques de Kinshasa; Faculté de droit; Faculté de philosophi"
+    },
+    {
+      "evidence_unit_id": "P1220#002",
+      "chunk_id": "P1220#002",
+      "page": 1,
+      "line_start": 14,
+      "line_end": 14,
+      "excerpt": "Le programme de ce diplôme comporte une première et une seconde épreuve d'examen."
+    },
+    {
+      "evidence_unit_id": "P1220#003",
+      "chunk_id": "P1220#003",
+      "page": 1,
+      "line_start": 16,
+      "line_end": 16,
+      "excerpt": "Grade de candidat... (Université...) obtenu à la suite de la réussite des deux (2) années du programme et précédé du Diplôme d'agrégé(e) de l'enseignement secondaire inférieur : Belgique (Jury de l'Ecole Normale Moyenne) dans une section di"
+    },
+    {
+      "evidence_unit_id": "P1220#004",
+      "chunk_id": "P1220#004",
+      "page": 1,
+      "line_start": 23,
+      "line_end": 23,
+      "excerpt": "Cours du Grade de licencié... (Université...) : première année suivie et réussie dans la section linguistique africaine, précédés du Grade de licencié...: Belgique, section histoire et littérature orientale et du Grade de licencié... : Belg"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "document_id": "G0720",
+  "source_id": "src-G0720",
+  "source_filename": "G0720.pdf",
+  "source_hash": "2c12e21d7bff309946abc77159c7f8d1d11b69d53150d9b30f220636d3b31533",
+  "evidence": [
+    {
+      "evidence_unit_id": "G0720#001",
+      "chunk_id": "G0720#001",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "G0720 PROGRAMME DU COURS SECONDAIRE : BARBADE"
+    },
+    {
+      "evidence_unit_id": "G0720#002",
+      "chunk_id": "G0720#002",
+      "page": 1,
+      "line_start": 5,
+      "line_end": 5,
+      "excerpt": "L'attestation officielle de réussite du Cours secondaire doit être décernée par un des organismes ou établissements énumérés dans la règle particulière pertinente."
+    },
+    {
+      "evidence_unit_id": "G0720#003",
+      "chunk_id": "G0720#003",
+      "page": 1,
+      "line_start": 5,
+      "line_end": 5,
+      "excerpt": "L'attestation officielle de réussite du Cours secondaire doit être signée par une des autorités mentionnées dans la règle particulière pertinente."
+    },
+    {
+      "evidence_unit_id": "G0720#004",
+      "chunk_id": "G0720#004",
+      "page": 1,
+      "line_start": 5,
+      "line_end": 5,
+      "excerpt": "L'attestation officielle de réussite du Cours secondaire porte un des libellés complets énumérés ciaprès et est évaluée de la façon suivante :"
+    },
+    {
+      "evidence_unit_id": "G0720#005",
+      "chunk_id": "G0720#005",
+      "page": 1,
+      "line_start": 14,
+      "line_end": 14,
+      "excerpt": "\"BARBADOS SECONDARY SCHOOL CERTIFICATE EXAMINATION, STAGE 1\" Lorsqu'il comporte trois (3) \"Subjects\", ou moins, suivis et réussis, ou lorsqu'il comporte quatre (4) \"Subjects\", ou plus, suivis et réussis, sans l'\"English Language\" obligatoir"
+    },
+    {
+      "evidence_unit_id": "G0720#006",
+      "chunk_id": "G0720#006",
+      "page": 1,
+      "line_start": 23,
+      "line_end": 23,
+      "excerpt": "années de scolarité Lorsqu'il comporte quatre (4) \"Subjects, ou plus, suivis et réussis, incluant l'\"English Language\" obligatoire : Ce diplôme est évalué à"
+    },
+    {
+      "evidence_unit_id": "G0720#008",
+      "chunk_id": "G0720#008",
+      "page": 1,
+      "line_start": 30,
+      "line_end": 30,
+      "excerpt": "\"SCHOOL LEAVING CERTIFICATE EXAMINATION\" (Depuis 1964) : Cet \"...Examination\" est évalué à"
+    },
+    {
+      "evidence_unit_id": "G0720#010",
+      "chunk_id": "G0720#010",
+      "page": 1,
+      "line_start": 38,
+      "line_end": 38,
+      "excerpt": "\"GRADUATION CERTIFICATE GRADE XII\" : Ce \"...Certificate...\" est évalué à"
+    },
+    {
+      "evidence_unit_id": "G0720#012",
+      "chunk_id": "G0720#012",
+      "page": 1,
+      "line_start": 42,
+      "line_end": 42,
+      "excerpt": "\"CARABBEAN SECONDARY EDUCATION CERTIFICATE (CSEC)\" : Ce \"...Certificate...\" est évalué à"
+    }
+  ]
+}

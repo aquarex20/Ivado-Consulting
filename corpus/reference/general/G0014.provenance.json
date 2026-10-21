@@ -1,0 +1,48 @@
+{
+  "document_id": "G0014",
+  "source_id": "src-G0014",
+  "source_filename": "G0014.pdf",
+  "source_hash": "bba74098c50a6eaa5ec48db611df61a0b6f5c5a26d002f517a513cbfe178b62f",
+  "evidence": [
+    {
+      "evidence_unit_id": "G0014#001",
+      "chunk_id": "G0014#001",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "G0014 QUALIFICATION PARTICULIERE : ATTESTATION DU C.P.C.C.T.C. Sur le constat par le ministre de l'Education du Québec qu'un enseignant a bénéficié des dispositions prévues par l'application des normes de classement du C.P.C.C.T.C. :"
+    },
+    {
+      "evidence_unit_id": "G0014#002",
+      "chunk_id": "G0014#002",
+      "page": 1,
+      "line_start": 8,
+      "line_end": 8,
+      "excerpt": "on accorde, sous forme d'équivalence en scolarité, la différence positive entre l'application des normes de classement du C.P.C.C.T.C. et celles du Manuel d'évaluation de la scolarité du ministre de l'Education du Québec pour les mêmes étud"
+    },
+    {
+      "evidence_unit_id": "G0014#003",
+      "chunk_id": "G0014#003",
+      "page": 1,
+      "line_start": 12,
+      "line_end": 12,
+      "excerpt": "on évalue, selon les règles du Manuel d'évaluation de la scolarité, toute nouvelle scolarité acquise après les dates visées par l'attestation du C.P.C.C.T.C. Toutefois, lorsque le bénéficiaire de la présente règle a déjà reçu une attestatio"
+    },
+    {
+      "evidence_unit_id": "G0014#004",
+      "chunk_id": "G0014#004",
+      "page": 1,
+      "line_start": 18,
+      "line_end": 18,
+      "excerpt": "on transpose sur l'attestation officielle de scolarité le reclassement effectué par le Comité des cas spéciaux pour les dates visées;"
+    },
+    {
+      "evidence_unit_id": "G0014#005",
+      "chunk_id": "G0014#005",
+      "page": 1,
+      "line_start": 21,
+      "line_end": 21,
+      "excerpt": "on ajoute, en conformité avec le Manuel d'évaluation de la scolarité, toute nouvelle scolarité acquise après la dernière date visée par ladite attestation du Comité des cas spéciaux."
+    }
+  ]
+}

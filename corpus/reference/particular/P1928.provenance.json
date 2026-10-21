@@ -1,0 +1,40 @@
+{
+  "document_id": "P1928",
+  "source_id": "src-P1928",
+  "source_filename": "P1928.pdf",
+  "source_hash": "d26cc215dfdadfb469404269c8b8027d94995ef200f72ff992bb97b3a5101029",
+  "evidence": [
+    {
+      "evidence_unit_id": "P1928#001",
+      "chunk_id": "P1928#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Ce diplôme est décerné par l'établissement mentionné ciaprès: \"UNIVERSITY OF SASKATCHEWAN\""
+    },
+    {
+      "evidence_unit_id": "P1928#002",
+      "chunk_id": "P1928#002",
+      "page": 1,
+      "line_start": 7,
+      "line_end": 7,
+      "excerpt": "Ce programme comporte des cours et des stages."
+    },
+    {
+      "evidence_unit_id": "P1928#003",
+      "chunk_id": "P1928#003",
+      "page": 1,
+      "line_start": 9,
+      "line_end": 9,
+      "excerpt": "\"Bachelor of Science in Nursing\" (Programme de quatre ans) (Depuis 1967), obtenu à la suite de la réussite des quatre (4) années du programme et précédé de cours du \"Bachelor of Arts\": Saskatchewan: première (1ère) année suivie et réussie; "
+    },
+    {
+      "evidence_unit_id": "P1928#004",
+      "chunk_id": "P1928#004",
+      "page": 1,
+      "line_start": 15,
+      "line_end": 15,
+      "excerpt": "Le programme de ce diplôme peut être offert avec les établissements énumérés ci-après : - \"SASKATCHEWAN INSTITUTE OF APPLIED SCIENCE AND TECHNOLOGY; - \"SASKATCHEWAN POLYTECHNIC\"."
+    }
+  ]
+}

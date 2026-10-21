@@ -1,0 +1,64 @@
+{
+  "document_id": "P1833",
+  "source_id": "src-P1833",
+  "source_filename": "P1833.pdf",
+  "source_hash": "e3ae026b900d29a075ac08ed909b74a2dbfaa1573ccc47b9079aa24e23086a67",
+  "evidence": [
+    {
+      "evidence_unit_id": "P1833#001",
+      "chunk_id": "P1833#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Ce diplôme est décerné par un des établissements universitaires accrédités énumérés ciaprès: \"CHU HAI COLLEGE, HONG KONG...MINISTRY OF EDUCATION, REPUBLIC OF CHINA\"; \"CHUNG YUAN CHRISTIAN COLLEGE OF SCIENCES AND ENGINEERING\" (Chungli); \"COL"
+    },
+    {
+      "evidence_unit_id": "P1833#002",
+      "chunk_id": "P1833#002",
+      "page": 1,
+      "line_start": 29,
+      "line_end": 29,
+      "excerpt": "Le diplôme et le relevé de notes officiel doivent être signés par une des autorités mentionnées ciaprès: \"Dean of Studies\"; \"President\"; Recteur; \"Registrar\"."
+    },
+    {
+      "evidence_unit_id": "P1833#003",
+      "chunk_id": "P1833#003",
+      "page": 1,
+      "line_start": 37,
+      "line_end": 37,
+      "excerpt": "Ce diplôme peut porter, sur le relevé de notes officiel, un des libellés énumérés ciaprès: \"B.A.\"; \"B.S.\"; \"B.Sc.\"."
+    },
+    {
+      "evidence_unit_id": "P1833#004",
+      "chunk_id": "P1833#004",
+      "page": 1,
+      "line_start": 44,
+      "line_end": 44,
+      "excerpt": "Le programme du diplôme décerné par la \"National Taïwan Normal University\", ou la \"Taïwan Normal University\", comporte une (1) année de pratique de l'enseignement (\"Teaching Practice\") pour laquelle on n'accorde aucune scolarité additionnel"
+    },
+    {
+      "evidence_unit_id": "P1833#005",
+      "chunk_id": "P1833#005",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "\"Bachelor of Science\": (\"Chu Hai College Hong Kong... Ministry of Education Republic of China\"), option: \"Mathematics\", obtenu à la suite de la réussite des deux (2) dernières années du programme et précédé du \"Teacher's Certificate... Spec"
+    },
+    {
+      "evidence_unit_id": "P1833#006",
+      "chunk_id": "P1833#006",
+      "page": 2,
+      "line_start": 6,
+      "line_end": 6,
+      "excerpt": "Ce diplôme peut être obtenu à la suite de cours du soir; dans ce cas, il faut soustraire une (1) année au total indiqué sur le relevé de notes officiel."
+    },
+    {
+      "evidence_unit_id": "P1833#007",
+      "chunk_id": "P1833#007",
+      "page": 2,
+      "line_start": 9,
+      "line_end": 9,
+      "excerpt": "\"Bachelor of Arts in Applied Foreign Languages\": Ling Tung University obtenu à la suite de la réussite des deux (2) dernières années du programme et précédé du \"Diploma\" (Five Year Junior College): Taiwan; on accorde, pour le \"Bachelor of A"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "document_id": "P1241",
+  "source_id": "src-P1241",
+  "source_filename": "P1241.pdf",
+  "source_hash": "ba72b0eefdb66917f75a29f6d0d751238ce95d860ec499dc9508522f9a60d1e3",
+  "evidence": [
+    {
+      "evidence_unit_id": "P1241#001",
+      "chunk_id": "P1241#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Cours du \"Titulo de arquitecto (Universidad Nacional de Colombia)\" : première année du programme suivie et réussie, précédés du Cours secondaire : Haïti : Certificat de fin d'études secondaires, deuxième partie; on accorde, pour les cours d"
+    },
+    {
+      "evidence_unit_id": "P1241#002",
+      "chunk_id": "P1241#002",
+      "page": 1,
+      "line_start": 8,
+      "line_end": 8,
+      "excerpt": "Ce diplôme est décerné par un des établissements énumérés ci-après : • Universidad del Valle; • Universidad nacional de Colombia."
+    }
+  ]
+}

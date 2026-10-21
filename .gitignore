@@ -18,8 +18,9 @@ data/output/
 data/cache/
 data/tmp/
 
-# PoC Phase 1 (PDF + Markdown + Qdrant générés)
-corpus/
+# PoC Phase 1 — corpus/ is committed so Streamlit Cloud can serve the index.
+# Lock file is created at runtime.
+corpus/derived/qdrant/.lock
 
 # Corpus source ICARE — binaires hors dépôt (trop volumineux pour un push)
 /RÈGLES GÉNÉRALES/

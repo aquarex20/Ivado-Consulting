@@ -1,0 +1,32 @@
+{
+  "document_id": "P2235",
+  "source_id": "src-P2235",
+  "source_filename": "P2235.pdf",
+  "source_hash": "2c0c33dbea887909ff14a4b86f0f0fa8ea56728d04d3b47f3bd67a9b604a0743",
+  "evidence": [
+    {
+      "evidence_unit_id": "P2235#001",
+      "chunk_id": "P2235#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Le programme de ce diplôme est offert par un des établissements énumérés ciaprès : Faculté de Droit, des Sciences politiques et administratives section II (Université Libanaise); Faculté de Sciences économiques et de Gestion des Entreprises"
+    },
+    {
+      "evidence_unit_id": "P2235#002",
+      "chunk_id": "P2235#002",
+      "page": 1,
+      "line_start": 10,
+      "line_end": 10,
+      "excerpt": "La quatrième année du programme peut comporter des cours formels et la rédaction d'un mémoire."
+    },
+    {
+      "evidence_unit_id": "P2235#003",
+      "chunk_id": "P2235#003",
+      "page": 1,
+      "line_start": 13,
+      "line_end": 13,
+      "excerpt": "Licence en gestion des entreprises, option : comptabilité et finance, obtenu à la suite de la réussite du programme avec sept (7) cours en recouvrement avec le Diplôme de technicien supérieur en expertise comptable et audit : Liban; on acco"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "document_id": "P2068",
+  "source_id": "src-P2068",
+  "source_filename": "P2068.pdf",
+  "source_hash": "87db33ba8e2632b11bea117b9f22e6afa74caf871fd33c68b5f84fefcefa82ad",
+  "evidence": [
+    {
+      "evidence_unit_id": "P2068#001",
+      "chunk_id": "P2068#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Ce diplôme est décerné par un des établissements énumérés ciaprès: \"CHINA JUNIOR COLLEGE OF MARINE TECHNOLOGY\" (1966); \"CHUNGYU JUNIOR COLLEGE OF BUSINESS ADMINISTRATION\" (1967); \"HSING WU COLLEGE OF COMMERCE\" (1965); \"KUANG WU JUNIOR COLLE"
+    },
+    {
+      "evidence_unit_id": "P2068#002",
+      "chunk_id": "P2068#002",
+      "page": 1,
+      "line_start": 22,
+      "line_end": 22,
+      "excerpt": "Ce diplôme peut aussi porter en traduction le libellé mentionné ciaprès: Diplôme de fin d'études."
+    }
+  ]
+}

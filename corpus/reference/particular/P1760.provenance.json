@@ -1,0 +1,32 @@
+{
+  "document_id": "P1760",
+  "source_id": "src-P1760",
+  "source_filename": "P1760.pdf",
+  "source_hash": "084bed63d12a2a34e81e8b603567ef2d1889c9899adff59cf980cbb3d05986cd",
+  "evidence": [
+    {
+      "evidence_unit_id": "P1760#001",
+      "chunk_id": "P1760#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Ce diplôme est décerné par un des établissements énumérés ciaprès : APPLIED SCIENCE UNIVERSITY (PRIVATE); UNIVERSITE DE JORDANIE ou \"UNIVERSITY OF JORDAN\" (Depuis 1962); UNIVERSITE DE YARMOUK ou \"YARMOUKU NIVERSITY\" (Depuis 1976)."
+    },
+    {
+      "evidence_unit_id": "P1760#002",
+      "chunk_id": "P1760#002",
+      "page": 1,
+      "line_start": 9,
+      "line_end": 9,
+      "excerpt": "Ce diplôme peut porter (en traduction) un des libellés énumérés ciaprès : \"B. EC.\"; \"B. SC.\"; Baccalauréat ès sciences."
+    },
+    {
+      "evidence_unit_id": "P1760#003",
+      "chunk_id": "P1760#003",
+      "page": 1,
+      "line_start": 15,
+      "line_end": 15,
+      "excerpt": "Ce diplôme doit comporter pour le \"B.Sc.\" une des options énumérées ci-après : \"Accountancy\"; Analyses biologiques; \"ChemistryEducation\"; \"Economics and Statistics\"; \"Mathematics\"; \"Physics\"."
+    }
+  ]
+}

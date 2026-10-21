@@ -1,0 +1,32 @@
+{
+  "document_id": "P2175",
+  "source_id": "src-P2175",
+  "source_filename": "P2175.pdf",
+  "source_hash": "fb51476c1236e71f5fead62d3ab5e86c1d119fa6be93bd93e8c5f11446b36b53",
+  "evidence": [
+    {
+      "evidence_unit_id": "P2175#001",
+      "chunk_id": "P2175#001",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "P2175 • Ce diplôme est décerné par un des établissements énumérés ci-après : • \"MALASPINA UNIVERSITY-COLLEGE\"; • \"NOTRE DAME UNIVERSITY OF NELSON\"; • \"OKANAGAN UNIVERSITY COLLEGE\" (Kelowna); • \"SIMON FRASER UNIVERSITY\" (Burnaby); • \"THE UNI"
+    },
+    {
+      "evidence_unit_id": "P2175#002",
+      "chunk_id": "P2175#002",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "\"Unit = 2 unités 0,5 \"Unit\" = 1 unité • \"THE UNIVERSITY OF BRITISH COLUMBIA\" (Depuis mai 1991)."
+    },
+    {
+      "evidence_unit_id": "P2175#003",
+      "chunk_id": "P2175#003",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "\"Credit = 1 unité • Lorsque les études autres que secondaires évaluées à douze (12) années de scolarité ou plus, précédant ou accompagnant le \"Bachelor...\", comportent, en tout ou en partie, de la formation générale, on ne devra pas dépasse"
+    }
+  ]
+}

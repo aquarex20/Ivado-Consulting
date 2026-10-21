@@ -1,0 +1,40 @@
+{
+  "document_id": "P2183",
+  "source_id": "src-P2183",
+  "source_filename": "P2183.pdf",
+  "source_hash": "5c68443fa01629488cba7ee8b1c60df98b5fec14a5ef7ad5d5418958b38acca9",
+  "evidence": [
+    {
+      "evidence_unit_id": "P2183#001",
+      "chunk_id": "P2183#001",
+      "page": 1,
+      "line_start": 3,
+      "line_end": 3,
+      "excerpt": "Ce diplôme est décerné par un des établissements énumérés ciaprès : \"LANGARA COLLEGE\" (Langara College of Higher Learning); \"SELKIRK COLLEGE\" (Castlegar Campus); \"VANCOUVER CITY COLLEGE\" (Langara); \"VANCOUVER COMMUNITY COLLEGE\" (Langara)."
+    },
+    {
+      "evidence_unit_id": "P2183#003",
+      "chunk_id": "P2183#003",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "\"Credit\" = 1 unité \"VANCOUVER CITY COLLEGE\" (Langara) :"
+    },
+    {
+      "evidence_unit_id": "P2183#005",
+      "chunk_id": "P2183#005",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "Cours du \"Diploma in Arts and Sciences\" : (\"Selkirk College\" (Castlegar campus)) : vingtneuf (29) unités de cours suivis et réussis, précédés de cours du Diplôme d'études collégiales, Formation générale (Ministère de l'Education) : Québec, "
+    },
+    {
+      "evidence_unit_id": "P2183#006",
+      "chunk_id": "P2183#006",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "Cours du \"Diploma in Arts and Sciences\" : \"Vancouver Community College, Langara\" : vingt et une (21) unités de cours suivis et réussis, précédés du Diplôme d'études collégiales, Formation générale (Ministère de l'Education) : Québec, et du "
+    }
+  ]
+}
