@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Données générées par le pipeline (les sources restent versionnées séparément)
+data/output/
+data/cache/
+data/tmp/
+
+# PoC Phase 1 (PDF + Markdown + Qdrant générés)
+corpus/
+
+# Corpus source ICARE — binaires hors dépôt (trop volumineux pour un push)
+/RÈGLES GÉNÉRALES/
+/RÈGLES GÉNÉRALES.zip
+/RÈGLES PARTICULIÈRES.zip
+/ENSEMBLE DES RÈGLES PARTICULIÈRES APPLICABLES DANS LE MANUEL/
+/OneDrive_1_9-21-2026/
+/OneDrive_1_9-21-2026.zip
+
+# Fichiers systèmes / éditeurs
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Règles ICARE : synthèse de la classification (25 sept. 2026)</title>
+<style>
+  :root {
+    --text: #1f2328; --text-2: #57606a; --text-3: #8c959f;
+    --bg: #ffffff; --fill: #f3f4f6; --stroke: #d8dee4;
+    --det: #bf8700; --qual: #0969da; --hyb: #8250df; --accent: #0969da;
+    --warn-bg: #fff8e6; --warn-stroke: #e9c46a; --info-bg: #eef5ff; --info-stroke: #9cc3f5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 48px; }
+  h1 { font-size: 24px; margin: 6px 0 8px; }
+  h2 { font-size: 18px; margin: 0 0 6px; }
+  h3 { font-size: 14px; margin: 0 0 8px; }
+  p { margin: 0 0 8px; }
+  .muted { color: var(--text-2); }
+  .small { font-size: 12px; }
+  .faint { color: var(--text-3); font-size: 12px; }
+  .pill { display: inline-block; border: 1px solid var(--stroke); border-radius: 999px; padding: 1px 10px; font-size: 12px; margin-right: 8px; }
+  section { margin-top: 32px; }
+  hr { border: 0; border-top: 1px solid var(--stroke); margin: 32px 0 0; }
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .stat .v { font-size: 22px; font-weight: 600; }
+  .stat .l { font-size: 12px; color: var(--text-2); }
+  .card { border: 1px solid var(--stroke); border-radius: 8px; padding: 14px 16px; }
+  .callout { border: 1px solid var(--stroke); border-radius: 8px; padding: 12px 14px; }
+  .callout b { display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--info-bg); border-color: var(--info-stroke); }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-stroke); }
+  .legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-2); margin: 6px 0 10px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .row { display: grid; grid-template-columns: 260px minmax(0, 1fr) 60px; gap: 10px; align-items: center; margin: 5px 0; font-size: 13px; }
+  .row .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .num { text-align: right; color: var(--text-2); font-variant-numeric: tabular-nums; }
+  .track { display: flex; height: 14px; background: var(--fill); border-radius: 3px; overflow: hidden; }
+  .track span { display: block; height: 100%; }
+  .ranked .row { grid-template-columns: minmax(0, 1fr) 70px; }
+  #by-kind .row { grid-template-columns: 170px minmax(0, 1fr) 50px; }
+  .ranked .track { height: 5px; margin-top: 3px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--stroke); }
+  th { font-size: 12px; color: var(--text-2); font-weight: 600; }
+  td.muted { color: var(--text-2); }
+  @media (max-width: 800px) { .g2, .g3, .g5 { grid-template-columns: 1fr; } .row { grid-template-columns: 140px minmax(0, 1fr) 50px; } }
+  @media print { main { padding: 0; } section, .card, .callout, table { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+  <div><span class="pill">Classification en cours</span><span class="faint">llama3.2 (3B) via Ollama · prompt v2 · état au 25 sept. 2026, 11 h 13</span></div>
+  <h1>Règles ICARE : synthèse de la classification</h1>
+  <p class="muted">Échantillon aléatoire de 2 475 sous-règles sur 30 496 (8,1 %). Marge d'erreur d'environ ±2 points à 95 %.
+    Les proportions n'ont pas bougé depuis le premier point d'étape à 845 sous-règles. Les chiffres du profil du corpus, plus bas,
+    couvrent en revanche l'ensemble des 10 559 fichiers.</p>
+
+  <section class="grid g2" style="align-items:start">
+    <div>
+      <div class="grid g3">
+        <div class="stat"><div class="v" style="color:var(--qual)">62 %</div><div class="l">Qualitative (1 538)</div></div>
+        <div class="stat"><div class="v" style="color:var(--hyb)">35 %</div><div class="l">Hybride (875)</div></div>
+        <div class="stat"><div class="v" style="color:var(--det)">2,5 %</div><div class="l">Déterministe (62)</div></div>
+      </div>
+      <div class="callout info" style="margin-top:16px">
+        <b>Ce que ça implique pour l'architecture</b>
+        Presque toutes les règles (97,5 %) demandent une étape de lecture sémantique : reconnaître un diplôme, un établissement
+        ou un parcours. Le moteur de calcul n'intervient qu'en fin de chaîne, pour environ un tiers des règles (les hybrides).
+        Les règles purement déterministes sont rares : quelques formules de conversion et plafonds.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Catégorie selon le type de règle (part de l'échantillon)</h3>
+      <div class="legend" data-legend></div>
+      <div id="by-kind"></div>
+      <p class="small muted" style="margin-top:8px">Les règles générales (634) sont majoritairement hybrides (54 %). Les règles
+        particulières (1 841) sont majoritairement qualitatives (69 %) : ce sont surtout des équivalences de diplômes étrangers au cas par cas.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Catégorie selon le thème</h2>
+    <p class="small muted">Le modèle a produit 633 thèmes libres distincts, souvent des variantes d'un même thème. Ils sont regroupés ici en 11 familles.</p>
+    <div class="legend" data-legend></div>
+    <div id="by-theme"></div>
+    <p class="faint">Barres : nombre de sous-règles de l'échantillon, réparties par catégorie.</p>
+  </section>
+
+  <hr>
+
+  <section style="margin-top:24px">
+    <h2>Profil du corpus complet (sans modèle)</h2>
+    <p class="small muted">Calculé par extraction de motifs sur les 30 496 sous-règles, y compris les 6 921 fichiers WordPerfect.</p>
+    <div class="grid g5" style="margin-top:12px">
+      <div class="stat"><div class="v">10 559</div><div class="l">Fichiers (2 705 G, 7 854 P)</div></div>
+      <div class="stat"><div class="v">30 496</div><div class="l">Sous-règles à classer</div></div>
+      <div class="stat"><div class="v">227</div><div class="l">Caractères, longueur médiane</div></div>
+      <div class="stat"><div class="v">11 853</div><div class="l">Sous-règles partageant un gabarit</div></div>
+      <div class="stat"><div class="v">3 800</div><div class="l">Doublons exacts</div></div>
+    </div>
+    <div class="callout" style="margin-top:16px">
+      <b>Fichiers et sous-règles</b>
+      Les 7 390 fichiers numérotés sont découpés en 27 327 sous-règles (le plus souvent 2 ou 3 par fichier) ; les 3 169 autres sont
+      classés d'un bloc. Ce total inclut environ 3 900 métadonnées (« Ce diplôme est décerné par… ») et 2 750 copies exactes :
+      le nombre de règles réellement distinctes est plutôt de l'ordre de 24 000, et sans doute moins une fois le découpage des tableaux corrigé.
+    </div>
+
+    <div class="grid g2" style="margin-top:20px; align-items:start">
+      <div>
+        <h3>Valeurs de scolarité accordées les plus fréquentes</h3>
+        <div id="granted"></div>
+        <p class="faint">Nombre de sous-règles. Valeurs trouvées dans une clause « on accorde… ». Les montants de 12 à 17 années sont
+          des niveaux de scolarité totaux ; 1 année et 1/2 année sont des ajouts.</p>
+      </div>
+      <div>
+        <h3>Caractéristiques des sous-règles</h3>
+        <div id="features"></div>
+        <p class="faint">Pourcentage des 30 496 sous-règles. Le relevé de notes officiel représente 2 866 des pièces exigées.</p>
+      </div>
+    </div>
+
+    <div class="grid g3" style="margin-top:20px; align-items:start">
+      <div class="card"><h3>Variables à extraire du dossier <span class="faint">(échantillon)</span></h3><div class="ranked" id="vars"></div>
+        <p class="faint">Trois variables couvrent l'essentiel : diplôme obtenu, nombre d'années réussies, établissement.</p></div>
+      <div class="card"><h3>Pays mentionnés <span class="faint">(échantillon)</span></h3><div class="ranked" id="countries"></div>
+        <p class="faint">À prendre avec prudence : près de la moitié ne figure pas dans le texte de la règle.</p></div>
+      <div class="card"><h3>Règles les plus citées <span class="faint">(corpus complet)</span></h3><div class="ranked" id="refs"></div>
+        <p class="faint">Seules 2 % des sous-règles renvoient à une autre ; ces règles de base doivent être chargées avec celles qui les citent.</p></div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section style="margin-top:24px">
+    <h2>Exemples représentatifs</h2>
+    <table>
+      <thead><tr><th>Règle</th><th>Catégorie</th><th>Texte (abrégé)</th><th>Pourquoi</th></tr></thead>
+      <tbody id="examples"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Limites à connaître</h2>
+    <div class="grid g2">
+      <div class="callout warn"><b>La confiance du modèle n'est pas exploitable</b>
+        Elle vaut 0,8, 0,9 ou 1,0 dans 100 % des cas, et seules 3 sous-règles sur 2 475 sont marquées pour révision. Les cas à
+        réviser devront être choisis autrement, par échantillonnage ou par désaccord avec un second modèle.</div>
+      <div class="callout warn"><b>Environ 10 % des segments ne sont pas des règles</b>
+        3 902 segments sur 37 886 sont du type « Ce diplôme est décerné par l'établissement mentionné ci-après ». Ils sont tous
+        classés Qualitative (322 dans l'échantillon, soit 13 %) et gonflent cette catégorie.</div>
+      <div class="callout"><b>Attributs en partie déduits</b>
+        361 des 775 pays renvoyés ne figurent pas dans le texte. Certains sont déduits à juste titre (Marburg donne Allemagne),
+        d'autres sont faux. Les listes de diplômes et d'établissements mélangent aussi des libellés génériques.</div>
+      <div class="callout"><b>Avancement</b>
+        Environ 8,8 secondes par sous-règle avec le modèle local, soit à peu près 68 heures de calcul pour les 28 021 restantes.
+        Les résultats partiels restent représentatifs grâce au tirage aléatoire.</div>
+    </div>
+  </section>
+
+  <p class="faint" style="margin-top:32px">Source : pipeline icare-rules (classifications.jsonl, corpus_profile.json) · Ivado Consulting</p>
+</main>
+
+<script>
+const CATS = [["Déterministe", "var(--det)"], ["Qualitative", "var(--qual)"], ["Hybride", "var(--hyb)"]];
+const fmt = (n) => n.toLocaleString("fr-CA");
+
+document.querySelectorAll("[data-legend]").forEach((el) => {
+  el.innerHTML = CATS.map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+});
+
+function stacked(id, rows, normalized) {
+  const max = Math.max(...rows.map((r) => r[1] + r[2] + r[3]));
+  document.getElementById(id).innerHTML = rows.map(([label, ...v]) => {
+    const total = v.reduce((a, b) => a + b, 0);
+    const scale = normalized ? total : max;
+    const segs = v.map((x, i) => `<span title="${CATS[i][0]} : ${fmt(x)} (${Math.round((x / total) * 100)} %)" style="width:${(x / scale) * 100}%;background:${CATS[i][1]}"></span>`).join("");
+    return `<div class="row"><div class="lbl" title="${label}">${label}</div><div class="track">${segs}</div><div class="num">${fmt(total)}</div></div>`;
+  }).join("");
+}
+
+function bars(id, rows, suffix = "") {
+  const max = Math.max(...rows.map((r) => r[1]));
+  document.getElementById(id).innerHTML = rows.map(([label, v]) =>
+    `<div class="row"><div class="lbl" title="${label}">${label}</div><div class="track"><span style="width:${(v / max) * 100}%;background:var(--accent)"></span></div><div class="num">${fmt(v)}${suffix}</div></div>`
+  ).join("");
+}
+
+function ranked(id, rows, suffix = "") {
+  const max = Math.max(...rows.map((r) => r[1]));
+  document.getElementById(id).innerHTML = rows.map(([label, v]) =>
+    `<div class="row"><div><div>${label}</div><div class="track"><span style="width:${(v / max) * 100}%;background:var(--accent)"></span></div></div><div class="num">${fmt(v)}${suffix}</div></div>`
+  ).join("");
+}
+
+stacked("by-kind", [["Règles générales (G)", 25, 267, 342], ["Règles particulières (P)", 37, 1271, 533]], true);
+stacked("by-theme", [
+  ["Équivalence de diplôme ou de scolarité", 24, 509, 612],
+  ["Programme, cours, formation", 8, 185, 88],
+  ["Autres", 16, 211, 18],
+  ["Établissement qui décerne le diplôme", 0, 215, 0],
+  ["Évaluation de scolarité ou de diplôme", 4, 103, 104],
+  ["Administratif", 0, 140, 0],
+  ["Formation professionnelle", 5, 66, 41],
+  ["Thème vide", 0, 72, 0],
+  ["Libellés et traductions", 0, 35, 0],
+  ["Unités et crédits", 0, 2, 12],
+  ["Scolarité maximale", 5, 0, 0],
+], false);
+bars("granted", [["1 année", 1437], ["1/2 d'année", 600], ["16 années", 585], ["14 années", 463], ["13 années", 456],
+  ["12 années", 456], ["15 années", 419], ["2 années", 396], ["17 années", 349], ["3 années", 192]]);
+bars("features", [["Cite un libellé entre guillemets", 43.7], ["Contient une quantité", 38.1], ["S'ajoute à la scolarité acquise", 19.0],
+  ["Valeur accordée explicite", 14.9], ["Scolarité plafonnée", 10.4], ["Contient un N.B.", 10.1], ["Exige une pièce justificative", 9.6],
+  ["Renvoie à une règle particulière", 8.4], ["Renvoie à une autre règle (G/P)", 2.0]], " %");
+ranked("vars", [["diplome_obtenu", 360], ["nombre_annees_reussies", 187], ["etablissement", 179], ["releve_de_notes_fourni", 62], ["scolarite_acquise", 25]]);
+ranked("countries", [["Canada", 105], ["Québec", 72], ["France", 55], ["Ontario", 25], ["Suisse", 20], ["Belgique", 18]]);
+ranked("refs", [["G0368", 62], ["G0001", 54], ["G0904", 28], ["G0002", 9], ["G1006", 9], ["P0662", 8]], " renvois");
+
+const EXAMPLES = [
+  ["P2202#004", "Hybride", "3 années universitaires après un secondaire évalué à 12 ans, et obtention du « Professional Certificate » : on accorde 15 années.", "Identifier le diplôme et les études antérieures, puis attribuer une valeur fixe."],
+  ["P1699#004", "Hybride", "« Bachelor of Architecture », au plus 1/8 d'année de recouvrement avec le DEC : on accorde 5 années qui s'ajoutent.", "Apparier le diplôme, vérifier un seuil de recouvrement, additionner."],
+  ["P4494#001", "Qualitative", "Ce diplôme est décerné par l'établissement mentionné ci-après : « Universidad Nacional de Cuyo ».", "Métadonnée plutôt que règle : liste l'établissement qui décerne le diplôme."],
+  ["P3233#006", "Déterministe", "On ne devra pas dépasser 15 années de scolarité pour l'ensemble des études sanctionnées par un diplôme de commerce…", "Plafond numérique ; seul le périmètre « diplôme de commerce » demande une lecture."],
+  ["G2553#002", "Déterministe", "1 unité = 1/30 d'année de scolarité qui s'ajoute à la scolarité déjà acquise.", "Formule de conversion universelle."],
+];
+document.getElementById("examples").innerHTML = EXAMPLES.map(([id, cat, text, why]) =>
+  `<tr><td><b>${id}</b></td><td>${cat}</td><td class="muted">${text}</td><td class="muted">${why}</td></tr>`).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+# Configuration du pipeline de classification des règles ICARE.
+# Copier vers `config/settings.yaml` et adapter au besoin.
+
+corpus:
+  # Racines à scanner. Chemins relatifs à la racine du projet.
+  roots:
+    - "RÈGLES GÉNÉRALES"
+    - "ENSEMBLE DES RÈGLES PARTICULIÈRES APPLICABLES DANS LE MANUEL"
+  # Motifs de fichiers acceptés (insensible à la casse).
+  include_globs: ["*.doc", "*.docx", "*.DOC", "*.DOCX"]
+  # Fichiers temporaires Word à ignorer.
+  exclude_prefixes: ["~$"]
+
+extraction:
+  # Ordre des extracteurs à essayer avant d'abandonner.
+  # `textutil` = commande macOS (rapide, fiable pour .doc et .docx).
+  # `python-docx` = fallback structuré pour .docx uniquement.
+  # `wpd2text` = fichiers WordPerfect (détectés par signature, même nommés .doc) ;
+  #   installer avec `brew install libwpd`.
+  strategies: ["textutil", "python-docx", "wpd2text"]
+  # Timeout par fichier (secondes).
+  timeout_seconds: 30
+
+segmentation:
+  # Longueur minimale (caractères) d'un segment pour être classé.
+  min_segment_chars: 40
+  # Nombre max de sous-règles avant de fusionner sous une agrégation "fichier".
+  max_subrules_per_file: 200
+
+classification:
+  # `azure` (Azure OpenAI) ou `ollama` (modèle local, ex. llama3.2).
+  backend: azure
+  # Deployment Azure OpenAI, ou nom du modèle Ollama
+  # (surchargeable par AZURE_OPENAI_DEPLOYMENT / OLLAMA_MODEL ou `--model`).
+  deployment: null
+  # Serveur Ollama et taille de contexte (utilisés seulement si backend: ollama).
+  ollama_host: "http://localhost:11434"
+  ollama_num_ctx: 8192
+  # Température pour un rendu déterministe.
+  temperature: 0.0
+  # Nombre max de tokens de la réponse (JSON structuré).
+  max_output_tokens: 1000
+  # Concurrence maximale d'appels API (Ollama local traite les requêtes une à une : 1).
+  max_concurrency: 4
+  # Nombre maximal de tentatives par appel (avec backoff exponentiel).
+  max_retries: 5
+  # Seuil de confiance en dessous duquel la sous-règle est marquée pour révision.
+  low_confidence_threshold: 0.6
+  # Version logique du prompt (change pour invalider le cache).
+  prompt_version: "v2"
+  # Fichier prompt (relatif à la racine du projet).
+  prompt_file: "config/classification_prompt.md"
+  # Liste fermée de thèmes imposée au modèle (null = thème libre, phase de découverte).
+  # Changer cette liste exige d'incrémenter `prompt_version` pour invalider le cache.
+  themes: null
+
+output:
+  # Racine des artefacts générés.
+  root: "data/output"
+  # Répertoire de cache par hash + modèle + prompt.
+  cache_dir: "data/cache"
+  # Créer un checkpoint après chaque N sous-règles.
+  checkpoint_every: 20
+
+pilot:
+  # Nombre de sous-règles G et P à échantillonner pour la validation initiale.
+  sample_size_g: 25
+  sample_size_p: 25
+  # Graine pour reproductibilité.
+  random_seed: 42
