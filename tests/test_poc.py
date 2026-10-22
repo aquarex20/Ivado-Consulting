@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from icare_poc.agents import run_agents
@@ -67,7 +68,29 @@ def test_hybrid_prefers_mentioned_rule_code(tmp_path: Path):
     assert hit.payload["document_id"] == "P1001"
 
 
-def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path):
+class _OllamaResponse:
+    def __init__(self, answer: str):
+        self._raw = json.dumps({"response": answer}).encode()
+
+    def read(self) -> bytes:
+        return self._raw
+
+    def __enter__(self) -> _OllamaResponse:
+        return self
+
+    def __exit__(self, *exc: object) -> bool:
+        return False
+
+
+def _patch_ollama(monkeypatch, answer: str, captured: dict) -> None:
+    def urlopen(req, timeout=0):
+        captured["prompt"] = json.loads(req.data.decode())["prompt"]
+        return _OllamaResponse(answer)
+
+    monkeypatch.setattr("icare_poc.agents.urllib.request.urlopen", urlopen)
+
+
+def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path, monkeypatch):
     pdf = tmp_path / "sources" / "pdf" / "general" / "G2553.pdf"
     pdf.parent.mkdir(parents=True)
     text = "1 unité = 1/30 d'année de scolarité qui s'ajoute à la scolarité déjà acquise."
@@ -76,6 +99,9 @@ def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path):
         [_chunk(tmp_path, chunk_id="G2553#002", document_id="G2553", text=text, pdf=pdf)],
         root=tmp_path,
     )
+    answer = "Selon G2553, une unité vaut un trentième d'année de scolarité."
+    captured: dict = {}
+    _patch_ollama(monkeypatch, answer, captured)
     events = list(run_agents("combien vaut une unité de scolarité ?", root=tmp_path))
     kinds = [(e.agent, e.status) for e in events]
     assert ("retriever", "done") in kinds
@@ -86,14 +112,14 @@ def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path):
     writer = next(e for e in events if e.agent == "writer" and e.status == "done")
     assert retriever.detail == "G2553#002"
     assert citer.data["page"] >= 1
-    assert "G2553" in writer.message
-    assert "Source:" not in writer.message
+    assert writer.message == answer
+    assert writer.detail == "ollama"
     assert writer.data["reference"]["text"] == text
-    assert writer.message.count("\n") == 0
-    assert "correspond à" in writer.message
+    assert text in captured["prompt"]
+    assert "G2553" in captured["prompt"]
 
 
-def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path):
+def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path, monkeypatch):
     pdf = tmp_path / "sources" / "pdf" / "particular" / "P9000.pdf"
     pdf.parent.mkdir(parents=True)
     filler = "Ce diplôme est décerné par un établissement énuméré ci-après. " * 6
@@ -107,20 +133,21 @@ def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path):
         [_chunk(tmp_path, chunk_id="P9000#001", document_id="P9000", text=text, pdf=pdf)],
         root=tmp_path,
     )
+    answer = "La règle P9000 accorde deux années pour ce bachelor d'architecture."
+    captured: dict = {}
+    _patch_ollama(monkeypatch, answer, captured)
     writer = next(
         event
         for event in run_agents("Combien d'années pour un Bachelor of Architecture ?", root=tmp_path)
         if event.agent == "writer" and event.status == "done"
     )
-    assert "P9000" in writer.message
-    assert "accorde deux (2) années" in writer.message
-    assert "Bachelor of Architecture" in writer.message
+    assert writer.message == answer
     assert filler.strip() not in writer.message
+    assert text.strip() in captured["prompt"]
     assert writer.data["reference"]["text"] == text.strip()
-    assert len(writer.message) < len(text) / 2
 
 
-def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path):
+def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path, monkeypatch):
     pdf = tmp_path / "sources" / "pdf" / "particular" / "P2175.pdf"
     pdf.parent.mkdir(parents=True)
     text = (
@@ -136,16 +163,16 @@ def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path):
         [_chunk(tmp_path, chunk_id="P2175#003", document_id="P2175", text=text, pdf=pdf)],
         root=tmp_path,
     )
+    answer = "Je ne sais pas. Le passage ne parle pas d'un Bachelor of Architecture au Québec."
+    captured: dict = {}
+    _patch_ollama(monkeypatch, answer, captured)
+    question = "Combien d'années pour un Bachelor of Architecture au Québec ?"
     writer = next(
         event
-        for event in run_agents(
-            "Combien d'années pour un Bachelor of Architecture au Québec ?",
-            root=tmp_path,
-        )
+        for event in run_agents(question, root=tmp_path)
         if event.agent == "writer" and event.status == "done"
     )
-    assert writer.message.startswith("Je ne sais pas")
-    assert "Architecture" in writer.message
-    assert "Québec" in writer.message
+    assert writer.message == answer
+    assert question in captured["prompt"]
+    assert "Je ne sais pas" in captured["prompt"]
     assert "Bachelor of Arts" not in writer.message
-    assert "deux (2) années" not in writer.message
