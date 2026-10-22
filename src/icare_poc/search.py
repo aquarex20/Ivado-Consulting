@@ -14,6 +14,7 @@ from pathlib import Path
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as qm
 
+from .metrics_store import score_delta, zero_lexical
 from .models import EvidenceChunk, RetrievalHit
 from .paths import COLLECTION, project_root, qdrant_dir
 
@@ -199,6 +200,32 @@ def retrieve(query: str, *, root: Path | None = None, limit: int = 5) -> list[Re
 def first_match(query: str, *, root: Path | None = None) -> RetrievalHit | None:
     hits = retrieve(query, root=root, limit=5)
     return hits[0] if hits else None
+
+
+def search_metrics(hits: list[RetrievalHit]) -> dict[str, float | bool | None]:
+    """Raw retrieval measures plus the two scores defined in metrics_store.
+
+    ``second_score`` is kept so ``score_delta`` can be recomputed later.
+    """
+    if not hits:
+        return {
+            "score": None,
+            "second_score": None,
+            "dense_score": None,
+            "bm25_score": None,
+            "score_delta": None,
+            "zero_lexical": None,
+        }
+    top = hits[0]
+    second = hits[1].score if len(hits) > 1 else None
+    return {
+        "score": top.score,
+        "second_score": second,
+        "dense_score": top.dense_score,
+        "bm25_score": top.bm25_score,
+        "score_delta": score_delta(top.score, second),
+        "zero_lexical": zero_lexical(top.bm25_score),
+    }
 
 
 def record_count(root: Path | None = None) -> int:

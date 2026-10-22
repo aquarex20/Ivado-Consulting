@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-import json
+import sqlite3
 from pathlib import Path
 
 from icare_poc.agents import run_agents
 from icare_poc.documents import write_pdf
 from icare_poc.locate import locate_excerpt
+from icare_poc.metrics_store import db_path
 from icare_poc.models import EvidenceChunk
-from icare_poc.search import first_match, upsert_chunks
+from icare_poc.search import first_match, retrieve, search_metrics, upsert_chunks
 
 
 def _chunk(root: Path, *, chunk_id: str, document_id: str, text: str, pdf: Path) -> EvidenceChunk:
@@ -68,26 +69,13 @@ def test_hybrid_prefers_mentioned_rule_code(tmp_path: Path):
     assert hit.payload["document_id"] == "P1001"
 
 
-class _OllamaResponse:
-    def __init__(self, answer: str):
-        self._raw = json.dumps({"response": answer}).encode()
+def _patch_model(monkeypatch, answer: str, captured: dict) -> None:
+    def chat(prompt: str, model: str) -> tuple[str, int | None, int | None]:
+        captured["prompt"] = prompt
+        captured["model"] = model
+        return answer, 12, 4
 
-    def read(self) -> bytes:
-        return self._raw
-
-    def __enter__(self) -> _OllamaResponse:
-        return self
-
-    def __exit__(self, *exc: object) -> bool:
-        return False
-
-
-def _patch_ollama(monkeypatch, answer: str, captured: dict) -> None:
-    def urlopen(req, timeout=0):
-        captured["prompt"] = json.loads(req.data.decode())["prompt"]
-        return _OllamaResponse(answer)
-
-    monkeypatch.setattr("icare_poc.agents.urllib.request.urlopen", urlopen)
+    monkeypatch.setattr("icare_poc.agents._chat", chat)
 
 
 def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path, monkeypatch):
@@ -101,7 +89,7 @@ def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path, monkeypatch):
     )
     answer = "Selon G2553, une unité vaut un trentième d'année de scolarité."
     captured: dict = {}
-    _patch_ollama(monkeypatch, answer, captured)
+    _patch_model(monkeypatch, answer, captured)
     events = list(run_agents("combien vaut une unité de scolarité ?", root=tmp_path))
     kinds = [(e.agent, e.status) for e in events]
     assert ("retriever", "done") in kinds
@@ -113,7 +101,7 @@ def test_agents_return_qdrant_id_and_pdf_line(tmp_path: Path, monkeypatch):
     assert retriever.detail == "G2553#002"
     assert citer.data["page"] >= 1
     assert writer.message == answer
-    assert writer.detail == "ollama"
+    assert writer.detail == "openai"
     assert writer.data["reference"]["text"] == text
     assert text in captured["prompt"]
     assert "G2553" in captured["prompt"]
@@ -135,7 +123,7 @@ def test_writer_reformulates_instead_of_pasting_the_rule(tmp_path: Path, monkeyp
     )
     answer = "La règle P9000 accorde deux années pour ce bachelor d'architecture."
     captured: dict = {}
-    _patch_ollama(monkeypatch, answer, captured)
+    _patch_model(monkeypatch, answer, captured)
     writer = next(
         event
         for event in run_agents("Combien d'années pour un Bachelor of Architecture ?", root=tmp_path)
@@ -165,7 +153,7 @@ def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path, 
     )
     answer = "Je ne sais pas. Le passage ne parle pas d'un Bachelor of Architecture au Québec."
     captured: dict = {}
-    _patch_ollama(monkeypatch, answer, captured)
+    _patch_model(monkeypatch, answer, captured)
     question = "Combien d'années pour un Bachelor of Architecture au Québec ?"
     writer = next(
         event
@@ -176,3 +164,64 @@ def test_writer_says_when_the_reference_is_about_something_else(tmp_path: Path, 
     assert question in captured["prompt"]
     assert "Je ne sais pas" in captured["prompt"]
     assert "Bachelor of Arts" not in writer.message
+
+
+def test_search_metrics_gap_and_zero_lexical(tmp_path: Path, monkeypatch):
+    pdf_a = tmp_path / "sources" / "pdf" / "general" / "G0001.pdf"
+    pdf_b = tmp_path / "sources" / "pdf" / "particular" / "P1001.pdf"
+    pdf_a.parent.mkdir(parents=True)
+    pdf_b.parent.mkdir(parents=True)
+    write_pdf("Le candidat doit totaliser 45 crédits.", pdf_a, title="G0001")
+    write_pdf("Bachelor of Arts Hebrew University: on accorde deux années.", pdf_b, title="P1001")
+    upsert_chunks(
+        [
+            _chunk(tmp_path, chunk_id="G0001", document_id="G0001", text="45 crédits universitaires", pdf=pdf_a),
+            _chunk(
+                tmp_path,
+                chunk_id="P1001#001",
+                document_id="P1001",
+                text="Bachelor of Arts Hebrew University: on accorde deux années.",
+                pdf=pdf_b,
+            ),
+        ],
+        root=tmp_path,
+    )
+    hits = retrieve("zzzz quantum", root=tmp_path, limit=5)
+    metrics = search_metrics(hits)
+    assert metrics["zero_lexical"] is True
+    assert metrics["score_delta"] is not None
+    assert metrics["score_delta"] > 0
+
+    answer = "Je ne sais pas."
+    _patch_model(monkeypatch, answer, {})
+    events = list(run_agents("zzzz quantum", root=tmp_path))
+    retriever = next(e for e in events if e.agent == "retriever" and e.status == "done")
+    assert retriever.data["zero_lexical"] is True
+    assert retriever.data["score_delta"] == metrics["score_delta"]
+
+    with sqlite3.connect(db_path(tmp_path)) as conn:
+        conn.row_factory = sqlite3.Row
+        row = conn.execute("SELECT * FROM query_scores ORDER BY id DESC LIMIT 1").fetchone()
+        daily = conn.execute("SELECT * FROM query_scores_daily").fetchone()
+        formulas = conn.execute(
+            "SELECT name, expression FROM metric_definitions WHERE kind = 'computed' ORDER BY name"
+        ).fetchall()
+    assert row["pipeline"] == "qualitative"
+    assert row["status"] == "done"
+    assert row["question"] == "zzzz quantum"
+    assert row["answer"] == answer
+    assert "zzzz quantum" in row["model_prompt"]
+    assert row["latency_ms"] >= 0
+    assert row["zero_lexical"] == 1
+    assert row["score_delta"] == metrics["score_delta"]
+    assert row["chunk_id"] == retriever.data["chunk_id"]
+    assert row["second_score"] is not None
+    assert daily["runs"] == 1
+    assert daily["zero_lexical_rate"] == 1
+    assert {item["name"] for item in formulas} >= {
+        "score_delta",
+        "zero_lexical",
+        "refusal",
+        "avg_score_delta",
+        "avg_latency_ms",
+    }

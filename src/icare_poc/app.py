@@ -136,7 +136,9 @@ def main() -> None:
             card["detail"].markdown(
                 f"<p style='color:#6b7280;font-size:12px;margin:0'>"
                 f"score {extra.get('score')} · dense {extra.get('dense_score')} · "
-                f"bm25 {extra.get('bm25_score')}<br>{extra.get('preview')}</p>",
+                f"bm25 {extra.get('bm25_score')}<br>"
+                f"delta {extra.get('score_delta')} · zero lexical {extra.get('zero_lexical')}<br>"
+                f"{extra.get('preview')}</p>",
                 unsafe_allow_html=True,
             )
         elif event.agent == "citer":
