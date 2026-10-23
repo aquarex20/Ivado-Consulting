@@ -1,0 +1,24 @@
+{
+  "document_id": "P3302",
+  "source_id": "src-P3302",
+  "source_filename": "P3302.pdf",
+  "source_hash": "f5bd35ecc09690aceac5fab98d8486e1c47e866864cd4bc096b21374d1141051",
+  "evidence": [
+    {
+      "evidence_unit_id": "P3302#001",
+      "chunk_id": "P3302#001",
+      "page": 1,
+      "line_start": 1,
+      "line_end": 1,
+      "excerpt": "P3302 • Seuls sont reconnus, pour fins d'évaluation de la scolarité, les diplômes et relevés de notes officiels des établissements (écoles, instituts, facultés...) apparaissant dans la publication mentionnée ci-après : • L'\"INTERNATIONAL HA"
+    },
+    {
+      "evidence_unit_id": "P3302#002",
+      "chunk_id": "P3302#002",
+      "page": 1,
+      "line_start": 10,
+      "line_end": 10,
+      "excerpt": "Ce diplôme doit comporter une des options énumérées ci-après : • aménagement et mise en valeur des régions; • analyse, mesure et contrôle; • automatique et commande numérique; • animation culturelle; • commerce extérieur; • chimie et indust"
+    }
+  ]
+}

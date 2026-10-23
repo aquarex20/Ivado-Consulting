@@ -54,6 +54,15 @@ def _candidates(entries: list[InventoryEntry]) -> list[InventoryEntry]:
     return ranked
 
 
+def _is_local(path: Path) -> bool:
+    """False for iCloud placeholders, which time out when opened."""
+    try:
+        flags = getattr(path.stat(), "st_flags", 0)
+    except OSError:
+        return False
+    return not flags & 0x40000000
+
+
 def _first_line(text: str, fallback: str) -> str:
     for line in text.splitlines():
         cleaned = line.strip()
@@ -80,11 +89,11 @@ def select_and_materialize(
         if entry.kind == "P" and sum(1 for p in picked if p.kind == "P") >= want_p:
             continue
         path = Path(entry.absolute_path)
-        if not path.exists():
+        if not path.exists() or not _is_local(path):
             continue
         try:
             extracted = extract_text(path, settings)
-        except ExtractionError:
+        except (ExtractionError, OSError):
             continue
         if not (MIN_CHARS <= len(extracted.text) <= MAX_CHARS):
             continue

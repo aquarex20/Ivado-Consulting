@@ -21,6 +21,14 @@ _LINE_H = 14
 _MARGIN = 56
 
 
+def drop_placeholder(path: Path) -> None:
+    """Remove an iCloud placeholder so the next write creates a local file."""
+    if not path.exists():
+        return
+    if getattr(path.stat(), "st_flags", 0) & 0x40000000:
+        path.unlink()
+
+
 def _register_font() -> None:
     if _FONT not in pdfmetrics.getRegisteredFontNames():
         pdfmetrics.registerFont(TTFont(_FONT, str(font_path())))
@@ -30,6 +38,7 @@ def write_pdf(text: str, dest: Path, *, title: str) -> list[dict]:
     """Render `text` as a searchable PDF and return page/line coordinates."""
     _register_font()
     dest.parent.mkdir(parents=True, exist_ok=True)
+    drop_placeholder(dest)
     page_w, page_h = letter
     c = pdf_canvas.Canvas(str(dest), pagesize=letter)
     c.setTitle(title)
@@ -68,6 +77,7 @@ def write_markdown(
     source_id: str,
 ) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
+    drop_placeholder(dest)
     front = "\n".join(
         [
             "---",
@@ -103,6 +113,7 @@ def write_provenance(
     evidence: list[dict],
 ) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
+    drop_placeholder(dest)
     dest.write_text(
         json.dumps(
             {

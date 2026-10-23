@@ -24,9 +24,18 @@ RULE_ID_RE = re.compile(r"\b([GP])\s?-?(\d{3,5})\b", re.IGNORECASE)
 _TOKEN_RE = re.compile(r"[a-z0-9à-öø-ÿœæ]+", re.IGNORECASE)
 
 
+def _drop_dataless(path: Path) -> None:
+    if not path.exists():
+        return
+    for child in path.rglob("*"):
+        if child.is_file() and getattr(child.stat(), "st_flags", 0) & 0x40000000:
+            child.unlink()
+
+
 def _client(root: Path | None = None) -> QdrantClient:
     path = qdrant_dir(root)
     path.mkdir(parents=True, exist_ok=True)
+    _drop_dataless(path)
     return QdrantClient(path=str(path))
 
 

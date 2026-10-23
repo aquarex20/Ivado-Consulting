@@ -97,7 +97,7 @@ def db_path(root: Path) -> Path:
     return root / "data" / "output" / "poc_metrics.sqlite"
 
 
-def record_run(root: Path, row: dict[str, Any]) -> None:
+def record_run(root: Path, row: dict[str, Any]) -> int:
     path = db_path(root)
     path.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(path) as conn:
@@ -105,7 +105,8 @@ def record_run(root: Path, row: dict[str, Any]) -> None:
         values = [row.get(name) for name in _INSERT_COLUMNS]
         placeholders = ", ".join("?" for _ in _INSERT_COLUMNS)
         columns = ", ".join(_INSERT_COLUMNS)
-        conn.execute(f"INSERT INTO query_runs ({columns}) VALUES ({placeholders})", values)
+        cursor = conn.execute(f"INSERT INTO query_runs ({columns}) VALUES ({placeholders})", values)
+        return int(cursor.lastrowid)
 
 
 def _ensure(conn: sqlite3.Connection) -> None:

@@ -131,11 +131,13 @@ def run_agents(question: str, *, root: Path | None = None) -> Iterator[AgentEven
     root = root or project_root()
     record = _blank_query_log()
     started = time.perf_counter()
+    run_id: int | None = None
     try:
         yield from _run_agents(question, root=root, record=record)
     finally:
         record["latency_ms"] = int((time.perf_counter() - started) * 1000)
-        record_run(root, record)
+        run_id = record_run(root, record)
+    yield AgentEvent("log", "done", "Requête enregistrée.", data={"run_id": run_id})
 
 
 def _apply_reply(record: dict, reply: ModelReply) -> None:
